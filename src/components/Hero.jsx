@@ -1,3 +1,5 @@
+import { setGlobalState } from "../store"
+
 const Hero = () => {
   return (
     <div className="text-center bg-white text-gray-800 py-24 px-6">
@@ -10,8 +12,8 @@ const Hero = () => {
           <button
             type="button"
             className="inline-block px-6 py-2.5 bg-green-600
-          text-white font-medium text-xs leading-tight uppercase
-          rounded-full shadow-md hover:bg-green-700"
+            text-white font-medium text-xs leading-tight uppercase
+            rounded-full shadow-md hover:bg-green-700"
             onClick={() => setGlobalState('createModal', 'scale-100')}
           >
             Add Project
