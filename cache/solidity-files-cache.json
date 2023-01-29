@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DCharity.sol": {
+      "lastModificationDate": 1675009202218,
+      "contentHash": "ec2c22381aed38ea499ea53b0f5e6f88",
+      "sourceName": "src/contracts/DCharity.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.7"
+      ],
+      "artifacts": [
+        "DCharity"
+      ]
+    }
+  }
+}
