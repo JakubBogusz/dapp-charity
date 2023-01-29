@@ -76,7 +76,7 @@ const ProjectDetails = () => {
                     className="inline-block px-6 py-2.5 bg-red-600
                     text-white font-medium text-xs leading-tight uppercase
                     rounded-full shadow-md hover:bg-green-700"
-                    onClick={() => setGlobalState('createModal', 'scale-100')}>
+                    onClick={() => setGlobalState('deleteModal', 'scale-100')}>
                     Delete
                 </button>
                 <button
