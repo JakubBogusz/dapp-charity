@@ -80,20 +80,52 @@ const createProject = async ({
 
 const loadProjects = async () => {
     try {
-      if (!ethereum) return alert('Please install Metamask wallet.');
-  
-      const contract = await getEthereumContract();
-      const projects = await contract.getProjects();
-      const stats = await contract.stats();
-  
-        //   setGlobalState('stats', structureStats(stats))
-        //   setGlobalState('projects', structuredProjects(projects))
-        console.log(projects)
-        console.log(stats)
+        if (!ethereum) return alert('Please install Metamask wallet.');
+
+        const contract = await getEthereumContract();
+        const projects = await contract.getProjects();
+        const stats = await contract.stats();
+
+        setGlobalState('stats', structureStats(stats))
+        setGlobalState('projects', structuredProjects(projects))
     } catch (error) {
-      reportError(error)
+        reportError(error)
     }
-  }
+}
+
+//Convert project properties to appropriate data types
+const structuredProjects = (projects) =>
+    projects
+        .map((project) => ({
+            id: project.id.toNumber(),
+            owner: project.owner.toLowerCase(),
+            title: project.title,
+            description: project.description,
+            timestamp: new Date(project.timestamp.toNumber()).getTime(),
+            expiresAt: new Date(project.expiresAt.toNumber()).getTime(),
+            date: toDate(project.expiresAt.toNumber() * 1000),
+            imageURL: project.imageURL,
+            raised: parseInt(project.raised._hex) / 10 ** 18,
+            cost: parseInt(project.cost._hex) / 10 ** 18,
+            supporters: project.supporters.toNumber(),
+            status: project.status,
+        }))
+        .reverse()
+
+const toDate = (timestamp) => {
+    const date = new Date(timestamp)
+    const dd = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`
+    const mm =
+        date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
+    const yyyy = date.getFullYear()
+    return `${yyyy}-${mm}-${dd}`
+}
+
+const structureStats = (stats) => ({
+    totalProjects: stats.totalProjects.toNumber(),
+    totalSupporters: stats.totalSupporters.toNumber(),
+    totalDonations: parseInt(stats.totalDonations._hex) / 10 ** 18,
+})
 
 const reportError = (error) => {
     console.log(error.message)
