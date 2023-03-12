@@ -112,7 +112,7 @@ contract DCharity {
     ) public returns (bool) {
 
         require(msg.sender == projects[id].owner, "Unauthorized Entity");
-        require(bytes(title).length >0, "Title cannot be empty!");
+        require(bytes(title).length > 0, "Title cannot be empty!");
         require(bytes(description).length > 0, "Description cannot be empty!");
         require(bytes(imageURL).length > 0, "ImageURL cannot be empty!");
 
