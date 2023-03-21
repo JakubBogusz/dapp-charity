@@ -5,12 +5,12 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   createModal: 'scale-0',
   updateModal: 'scale-0',
   deleteModal: 'scale-0',
-  backModal: 'scale-0',
+  supportModal: 'scale-0',
   connectedAccount: '',
   projects: [],
   project: null,
   stats: null,
-  backers: [],
+  supporters: [],
 })
 
 const truncate = (text, startChars, endChars, maxLength) => {

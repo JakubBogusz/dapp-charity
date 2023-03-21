@@ -1,62 +1,51 @@
 import { FaEthereum } from 'react-icons/fa'
 import Identicon from 'react-identicons'
+import Moment from 'react-moment'
+import { truncate } from '../store'
 
-const ProjectSupporters = () => {
+const ProjectSupporters = ({ supporters }) => {
   return (
-    <div className="flex flex-col justify-center items-start px-6 md:w-2/3 mx-auto">
-      <div className="max-h-[calc(100vh_-_30rem)] overflow-y-auto
-            shadow-md rounded-md w-full mb-10">
+    <div className="flex flex-col justify-center items-start md:w-2/3 px-6 mx-auto">
+      <div
+        className="max-h-[calc(100vh_-_25rem)] overflow-y-auto
+        shadow-md rounded-md w-full mb-10"
+      >
         <table className="min-w-full">
-          <th className="border-b">
+          <thead className="border-b">
             <tr>
-              <th scope="col" className="text-sm
-                        font-medium px-6 py-4 text-left">Supporter</th>
+              <th
+                scope="col"
+                className="text-sm font-medium
+                px-6 py-4 text-left"
+              >
+                Supporter
+              </th>
+              <th
+                scope="col"
+                className="text-sm font-medium
+                px-6 py-4 text-left"
+              >
+                Donations
+              </th>
+              <th
+                scope="col"
+                className="text-sm font-medium
+                px-6 py-4 text-left"
+              >
+                Refunded
+              </th>
+              <th
+                scope="col"
+                className="text-sm font-medium
+                px-6 py-4 text-left"
+              >
+                Time
+              </th>
             </tr>
-          </th>
-          <th className="border-b">
-            <tr>
-              <th scope="col" className="text-sm
-                        font-medium px-6 py-4 text-left">Donations</th>
-            </tr>
-          </th>
-          <th className="border-b">
-            <tr>
-              <th scope="col" className="text-sm
-                        font-medium px-6 py-4 text-left">Refunded</th>
-            </tr>
-          </th>
-          <th className="border-b">
-            <tr>
-              <th scope="col" className="text-sm
-                        font-medium px-6 py-4 text-left">Time</th>
-            </tr>
-          </th>
+          </thead>
           <tbody>
-            {Array(10).fill().map((backing, index) => (
-              <tr key={index} className="border-b border-gray-200">
-                <td className="text-sm font-light px-6 py-4
-                            whitespace-nowrap">
-                  <div className='flex justify-start items-center space-x-2'>
-                    <Identicon className="h-10 w-10 object-contain rounded"
-                      string={"0x2e...042a" + index} size={25} />
-                    <span>0x2e...042{index}</span>
-                  </div>
-                </td>
-                <td className="text-sm font-light px-6 py-4
-                            whitespace-nowrap">
-                  <small className='flex justify-start items-center'>
-                    <FaEthereum />
-                    <span className='text-gray-700 font-medium'>{3} ETH</span>
-                  </small>
-                </td>
-                <td className="text-sm font-light px-6 py-4
-                            whitespace-nowrap">
-                  {false ? 'Yes' : 'No'}
-                </td>
-                <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                  {new Date().getTime()}
-                </td>
-              </tr>
+            {supporters.map((supporter, i) => (
+              <Supporter key={i} supporter={supporter} />
             ))}
           </tbody>
         </table>
@@ -64,5 +53,46 @@ const ProjectSupporters = () => {
     </div>
   )
 }
+
+const Supporter = ({ supporter }) => (
+  <tr className="border-b border-gray-200">
+    <td
+      className="text-sm font-light
+      px-6 py-4 whitespace-nowrap"
+    >
+      <div className="flex justify-start items-center space-x-2">
+        <Identicon
+          className="h-10 w-10 object-contain rounded-full shadow-md"
+          string={supporter.owner}
+          size={25}
+        />
+        <span>{truncate(supporter.owner, 4, 4, 11)}</span>
+      </div>
+    </td>
+    <td
+      className="text-sm font-light
+                  px-6 py-4 whitespace-nowrap"
+    >
+      <small className="flex justify-start items-center space-x-1">
+        <FaEthereum />
+        <span className="text-gray-700 font-medium">
+          {supporter.contribution} ETH
+        </span>
+      </small>
+    </td>
+    <td
+      className="text-sm font-light
+      px-6 py-4 whitespace-nowrap"
+    >
+      {supporter.refunded ? 'Yes' : 'No'}
+    </td>
+    <td
+      className="text-sm font-light
+      px-6 py-4 whitespace-nowrap"
+    >
+      <Moment fromNow>{supporter.timestamp}</Moment>
+    </td>
+  </tr>
+)
 
 export default ProjectSupporters

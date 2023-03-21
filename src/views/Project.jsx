@@ -1,30 +1,34 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import BackProject from "../components/BackProject"
+import SupportProject from "../components/SupportProject"
 import DeleteProject from "../components/DeleteProject"
 import ProjectDetails from "../components/ProjectDetails"
 import ProjectSupporters from "../components/ProjectSupporters"
 import UpdateProject from "../components/UpdateProject"
-import { loadProject } from "../services/blockchain"
+import { loadProject, getSupporters } from "../services/blockchain"
 import { useGlobalState } from "../store"
 
 const Project = () => {
    const { id } = useParams();
+   const [loaded, setLoaded] = useState(false);
    const [project] = useGlobalState('project');
+   const [supporters] = useGlobalState('supporters');
 
    useEffect(async () => {
       await loadProject(id);
+      await getSupporters(id);
+      setLoaded(true);
    }, [])
 
-  return (
+  return loaded ? (
     <>
-        <ProjectDetails project={project} />
-        <ProjectSupporters />
-        <UpdateProject />
-        <DeleteProject />
-        <BackProject />
+        <ProjectDetails project={project}/>
+        <ProjectSupporters supporters={supporters}/>
+        <UpdateProject project={project}/>
+        <DeleteProject project={project}/>
+        <SupportProject project={project}/>
     </>
-  )
+  ) : null
 }
 
 export default Project
