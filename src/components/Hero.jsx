@@ -28,7 +28,7 @@ const Hero = () => {
           rounded-full shadow-md bg-transparent hover:bg-green-700
           hover:text-white"
         >
-          Back Projects
+          Support Projects
         </button>
       </div>
 

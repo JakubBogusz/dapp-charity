@@ -5,9 +5,9 @@ import { FaEthereum } from "react-icons/fa"
 import { useState, useEffect } from "react"
 
 const Projects = ({ projects }) => {
-  const [end, setEnd] = useState(1)
-  const [count] = useState(1)
-  const [collection, setCollection] = useState([])
+  const [end, setEnd] = useState(3);
+  const [count] = useState(3);
+  const [collection, setCollection] = useState([]);
 
   const getCollection = () => projects.slice(0, end)
 
@@ -50,24 +50,26 @@ const ProjectCard = ({ project }) => {
         />
         <div className="p-4">
           <div className="flex flex-col">
-            <h5>{project.title}</h5>
-            <div className="flex justify-between items-center mb-3">
-              <Identicons className="rounded-full
-                         shadow-md" string="0x15...1ea2" size={15}
-              />
-              <small className="text-gray-700">{truncate(project.owner, 4, 4, 11)}</small>
+            <div className="flex justify-between space-x-2 items-center mb-6">
+              <h5>{project.title}</h5>
+              <div className="flex flex-row space-x-2 items-center ml-1">
+                <Identicons className="rounded-full shadow-md" string="0x15...1ea2" size={15} />
+                <small className="text-gray-700">
+                  {truncate(project.owner, 4, 4, 11)}
+                </small>
+              </div>
             </div>
             <small className="text-gray-500">
-              {expired ? 'Expired'
-                : daysRemaining(project.expiresAt)}{' '}
-              left
+              {expired
+                ? 'Expired'
+                : daysRemaining(project.expiresAt) + ' left'}
             </small>
           </div>
 
           <div className="w-full bg-gray-300">
             <div className="bg-green-600 font-medium text-xs
-                  text-green-100 text-center p-0.5 leading-none
-                  rounded-l-full" style={{ width: `${project.raised / project.cost * 100}` }}>
+                  text-green-100 text-center p-0.5 leading-none rounded-l-full"
+              style={{ width: `${(project.raised / project.cost) * 100}%` }}>
             </div>
           </div>
 
