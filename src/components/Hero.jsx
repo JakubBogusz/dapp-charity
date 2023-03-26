@@ -1,4 +1,5 @@
 import { setGlobalState, useGlobalState } from "../store"
+import OurMission from "./OurMission/OurMission";
 
 const Hero = () => {
    const [stats] = useGlobalState('stats');
@@ -31,6 +32,7 @@ const Hero = () => {
           Support Projects
         </button>
       </div>
+      <OurMission />
 
       <div className="flex justify-center items-center mt-10">
         <div
