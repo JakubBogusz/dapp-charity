@@ -5,7 +5,7 @@ import { connectWallet } from '../services/blockchain'
 import { useGlobalState } from '../store'
 import { truncate } from '../store'
 
-const Header = () => {
+const Navbar = () => {
   const [connectedAccount] = useGlobalState('connectedAccount')
 
   return (
@@ -13,9 +13,15 @@ const Header = () => {
       className="flex justify-between items-center p-5 bg-white shadow-lg fixed top-0 left-0 right-0 z-10"
     >
       <Link to="/" className='flex justify-start items-center text-xl text-black space-x-1'>
-        <span>DCharity</span>
+        <span>TrustFund</span>
         <TbBusinessplan />
       </Link>
+
+      <div className="flex space-x-8">
+        <Link to="/about" className="text-black hover:text-green-600">About</Link>
+        <Link to="/previous-projects" className="text-black hover:text-green-600">Previous Projects</Link>
+        <Link to="/decentralized-funds" className="text-black hover:text-green-600">Decentralized Funds</Link>
+      </div>
 
       <div className='flex space-x-2 justify-center'>
         {connectedAccount ? (
@@ -35,8 +41,7 @@ const Header = () => {
         )}
       </div>
     </header>
-
   )
 }
 
-export default Header
+export default Navbar

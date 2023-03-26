@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { Routes, Route } from "react-router-dom"
-import Header from "./components/Header"
+import Navbar from "./components/Navbar"
 import { isWalletConnected } from "./services/blockchain"
 import Home from "./views/Home"
 import Project from "./views/Project"
 import { ToastContainer } from "react-toastify"
+import About from "./components/About"
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
@@ -17,10 +18,11 @@ const App = () => {
 
   return (
     <div className="min-h-screen relative">
-      <Header />
+      <Navbar />
       {loaded ? (
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/ABOUT" element={<About />} />
           <Route path="/projects/:id" element={<Project />} />
         </Routes>
       ) : null}

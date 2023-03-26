@@ -6,10 +6,11 @@ const Hero = () => {
 
   return (
     <div className="text-center bg-white text-gray-800 py-24 px-6">
-      <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">
-        <span className="capitalize">Bring new charity actions ideas to life on</span>
+      <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-12">
+        <span className="capitalize">Empower Change and Cultivate Hope</span>
         <br />
-        <span className="text-green-600">DCharity</span>
+        <span>with </span>
+        <span className="text-green-600">TrustFund</span>
       </h1>
       <div className="flex justify-center items-center space-x-2">
         <button
@@ -32,7 +33,6 @@ const Hero = () => {
           Support Projects
         </button>
       </div>
-      <OurMission />
 
       <div className="flex justify-center items-center mt-10">
         <div
@@ -72,6 +72,7 @@ const Hero = () => {
           <span>Donated</span>
         </div>
       </div>
+      <OurMission />
     </div>
   )
 }

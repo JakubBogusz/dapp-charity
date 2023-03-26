@@ -16,14 +16,14 @@ const OurMission = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [images.length]);
 
   return (
     <div className="our-mission bg-indigo-100 text-black mt-8 rounded-lg">
       <div className="container mx-auto py-10 px-4">
-        <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
+        <h2 className="text-4xl font-bold mb-6">Our Mission - Transparent, Impactful Giving</h2>
         <p className="text-xl mb-8">
           We are a decentralized charity organization, striving to create a
           transparent and efficient platform for charitable giving. Our
