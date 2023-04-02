@@ -71,7 +71,7 @@ const createProject = async ({
     const contract = await getEthereumContract();
     cost = ethers.utils.parseEther(cost);
     await contract.createProject(title, description, imageURL, cost, expiresAt);
-    await tx.wait();
+    //await tx.wait();
     await loadProjects();
   } catch (error) {
     reportError(error);

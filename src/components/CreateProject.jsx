@@ -52,7 +52,7 @@ const CreateProject = () => {
   }
 
   return (
-    <div className={`fixed top-0 left-0 w-full h-full flex
+    <div className={`fixed top-0 left-0 w-full h-full flex z-30
       items-center justify-center bg-black bg-opacity-50 transform
       transition-transform duration-300 ${createModal}`}>
 

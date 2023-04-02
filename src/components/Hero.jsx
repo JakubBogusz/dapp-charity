@@ -1,11 +1,10 @@
 import { setGlobalState, useGlobalState } from "../store"
-import OurMission from "./OurMission/OurMission";
 
 const Hero = () => {
    const [stats] = useGlobalState('stats');
 
   return (
-    <div className="text-center bg-white text-gray-800 py-24 px-6">
+    <div className="text-center bg-white text-gray-800 pt-24 pb-16 px-6">
       <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-12">
         <span className="capitalize">Empower Change and Cultivate Hope</span>
         <br />
@@ -72,7 +71,6 @@ const Hero = () => {
           <span>Donated</span>
         </div>
       </div>
-      <OurMission />
     </div>
   )
 }

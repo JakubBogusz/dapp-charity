@@ -7,6 +7,7 @@ import ProjectSupporters from "../components/ProjectSupporters"
 import UpdateProject from "../components/UpdateProject"
 import { loadProject, getSupporters } from "../services/blockchain"
 import { useGlobalState } from "../store"
+import Footer from "../components/Footer"
 
 const Project = () => {
    const { id } = useParams();
@@ -27,6 +28,7 @@ const Project = () => {
         <UpdateProject project={project}/>
         <DeleteProject project={project}/>
         <SupportProject project={project}/>
+        <Footer />
     </>
   ) : null
 }
