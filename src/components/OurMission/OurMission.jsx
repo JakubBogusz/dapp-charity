@@ -4,8 +4,6 @@ import 'react-multi-carousel/lib/styles.css';
 import './OurMission.css';
 
 const OurMission = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -30,13 +28,6 @@ const OurMission = () => {
     '/images/donation_event.jpg',
     '/images/people_help.jpg',
   ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
-    }, 7000);
-    return () => clearInterval(interval);
-  }, [images.length]);
 
   return (
     <div className="our-mission bg-gray-100 text-black mt-8 rounded-lg w-10/12 sm:w-3/4 md:w-4/5 mx-auto flex flex-col items-center">
