@@ -29,6 +29,12 @@ const DecentralizedBanner = () => {
     },
   };
 
+  const images = [
+    '/images/poor-kids.jpg',
+    '/images/helping-woman.jpg',
+    '/images/people-team.jpg'
+  ];
+
   return (
     <div className="bg-gradient-to-r from-blue-500 via-blue-300 to-blue-200 p-8 md:p-16 rounded-lg mt-10">
       <div className="flex flex-col md:flex-row items-center">
@@ -51,25 +57,13 @@ const DecentralizedBanner = () => {
             responsive={responsive}
             infinite={true}
             autoPlay={true}
-            autoPlaySpeed={3000}
+            autoPlaySpeed={6000}
             arrows={false}
             showDots={false}
           >
-            <img
-              src="https://images.unsplash.com/photo-1516876437186-2922b59a2e04?fit=crop&w=800&q=80"
-              alt="Cryptocurrency"
-              className="w-full h-auto md:max-w-md mx-auto"
-            />
-            <img
-              src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?fit=crop&w=800&q=80"
-              alt="Blockchain"
-              className="w-full h-auto md:max-w-md mx-auto"
-            />
-            <img
-              src="https://images.unsplash.com/photo-1512201938078-2ce23af9e2f7?fit=crop&w=800&q=80"
-              alt="Digital Currency"
-              className="w-full h-auto md:max-w-md mx-auto"
-            />
+            {images.map((image, index) => (
+              <img src={image} alt={`Charity ${index}`} className="w-full h-auto md:max-w-md mx-auto" />
+            ))}
           </Carousel>
         </div>
       </div>
