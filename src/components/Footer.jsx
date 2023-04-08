@@ -21,8 +21,8 @@ const Footer = () => {
                       class="text-gray-600 hover:underline dark:text-gray-400">TrustFund</a>
                   </li>
                   <li>
-                    <a href="#" target="_blank" rel="nofollow"
-                      class="text-gray-600 hover:underline dark:text-gray-400">Tailwind CSS</a>
+                    <a href="https://www.binance.charity/" target="_blank" rel="nofollow"
+                      class="text-gray-600 hover:underline dark:text-gray-400">Binance charity</a>
                   </li>
                 </ul>
               </div>

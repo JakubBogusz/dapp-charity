@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
 contract DCharity {
@@ -6,14 +6,14 @@ contract DCharity {
     uint public projectTax;
     uint public projectCount;
     uint public balance;
-    statsStruct public stats;
-    projectStruct[] projects;
+    Stats public stats;
+    Project[] public projects;
 
-    mapping(address => projectStruct[]) projectsOf;
-    mapping(uint => supporterStruct[]) supportersOf;
+    mapping(address => Project[]) private projectsOf;
+    mapping(uint => Supporter[]) private supportersOf;
     mapping(uint => bool) public projectExist;
 
-    enum statusEnum {
+    enum Status {
         OPEN,
         APPROVED,
         REVERTED,
@@ -21,20 +21,20 @@ contract DCharity {
         PAIDOUT
     }
 
-    struct statsStruct {
+    struct Stats {
         uint totalProjects;
         uint totalSupporters;
         uint totalDonations;
     }
 
-    struct supporterStruct {
+    struct Supporter {
         address owner;
         uint contribution;
         uint timestamp;
         bool refunded;
     }
 
-    struct projectStruct {
+    struct Project {
         uint id;
         address owner;
         string title;
@@ -45,18 +45,18 @@ contract DCharity {
         uint timestamp;
         uint expiresAt;
         uint supporters;
-        statusEnum status;
+        Status status;
     }
 
-    modifier ownerOnly() {
+    modifier onlyOwner() {
         require(msg.sender == owner, "Owner reserved only");
         _;
     }
 
-    event Action (
+    event Action(
         uint256 id,
         string actionType,
-        address indexed executor, 
+        address indexed executor,
         uint256 timestamp
     );
 
@@ -72,13 +72,12 @@ contract DCharity {
         uint cost,
         uint expiresAt
     ) public returns (bool) {
-
-        require(bytes(title).length >0, "Title cannot be empty!");
+        require(bytes(title).length > 0, "Title cannot be empty!");
         require(bytes(description).length > 0, "Description cannot be empty!");
         require(bytes(imageURL).length > 0, "ImageURL cannot be empty!");
         require(cost > 0 ether, "Cost cannot be zero!");
 
-        projectStruct memory project;
+        Project memory project;
         project.id = projectCount;
         project.owner = msg.sender;
         project.title = title;
@@ -95,7 +94,7 @@ contract DCharity {
 
         emit Action(
             projectCount++,
-            "PROJECT CREATED",
+            "PROJECT_CREATED",
             msg.sender,
             block.timestamp
         );
@@ -110,7 +109,6 @@ contract DCharity {
         string memory imageURL,
         uint expiresAt
     ) public returns (bool) {
-
         require(msg.sender == projects[id].owner, "Unauthorized Entity");
         require(bytes(title).length > 0, "Title cannot be empty!");
         require(bytes(description).length > 0, "Description cannot be empty!");
@@ -121,37 +119,28 @@ contract DCharity {
         projects[id].imageURL = imageURL;
         projects[id].expiresAt = expiresAt;
 
-        emit Action (
-            id,
-            "PROJECT UPDATED",
-            msg.sender,
-            block.timestamp
-        );
-        
+        emit Action(id, "PROJECT_UPDATED", msg.sender, block.timestamp);
+
         return true;
     }
 
-     function deleteProject(uint id) public returns (bool) {
-
-        require(projects[id].status == statusEnum.OPEN, "Project no longer opened!");
+    function deleteProject(uint id) public returns (bool) {
+        require(
+            projects[id].status == Status.OPEN,
+            "Project no longer opened!"
+        );
         require(msg.sender == projects[id].owner, "Unauthorized Entity");
 
-        projects[id].status = statusEnum.DELETED;
+        projects[id].status = Status.DELETED;
         performRefund(id);
 
-        emit Action (
-            id,
-            "PROJECT DELETED",
-            msg.sender,
-            block.timestamp
-        );
-        
+        emit Action(id, "PROJECT_DELETED", msg.sender, block.timestamp);
+
         return true;
     }
 
     function performRefund(uint id) internal {
-
-        for(uint i = 0; i < supportersOf[id].length; i++) {
+        for (uint i = 0; i < supportersOf[id].length; i++) {
             address _owner = supportersOf[id][i].owner;
             uint _contribution = supportersOf[id][i].contribution;
 
@@ -165,10 +154,9 @@ contract DCharity {
     }
 
     function supportProject(uint id) public payable returns (bool) {
-
         require(msg.value > 0 ether, "Ether amount must be greater than zero");
         require(projectExist[id], "Project not found");
-        require(projects[id].status == statusEnum.OPEN, "Project no longer opened");
+        require(projects[id].status == Status.OPEN, "Project no longer opened");
 
         stats.totalSupporters += 1;
         stats.totalDonations += msg.value;
@@ -176,32 +164,20 @@ contract DCharity {
         projects[id].supporters += 1;
 
         supportersOf[id].push(
-            supporterStruct(
-                msg.sender,
-                msg.value,
-                block.timestamp,
-                false
-            )
+            Supporter(msg.sender, msg.value, block.timestamp, false)
         );
 
-        emit Action (
-            id,
-            "PROJECT BACKEND",
-            msg.sender,
-            block.timestamp
-        );
+        emit Action(id, "PROJECT_BACKED", msg.sender, block.timestamp);
 
-        if(projects[id].raised >= projects[id].cost) {
-
-            projects[id].status = statusEnum.APPROVED;
+        if (projects[id].raised >= projects[id].cost) {
+            projects[id].status = Status.APPROVED;
             balance += projects[id].raised;
             performPayout(id);
             return true;
         }
 
-        if(block.timestamp >= projects[id].expiresAt) {
-            
-            projects[id].status = statusEnum.REVERTED;
+        if (block.timestamp >= projects[id].expiresAt) {
+            projects[id].status = Status.REVERTED;
             performRefund(id);
             return true;
         }
@@ -210,47 +186,42 @@ contract DCharity {
     }
 
     function performPayout(uint id) internal {
-
         uint raised = projects[id].raised;
         uint tax = (raised * projectTax) / 100;
 
-        projects[id].status = statusEnum.PAIDOUT;
+        projects[id].status = Status.PAIDOUT;
 
         // Pay raised funds minus tax to project owner
         payTo(projects[id].owner, (raised - tax));
 
-        // Pay the tax to platform owner 
+        // Pay the tax to platform owner
         payTo(owner, tax);
 
         balance -= projects[id].raised;
 
-        emit Action (
-            id,
-            "PROJECT PAID OUT",
-            msg.sender,
-            block.timestamp
-        );
+        emit Action(id, "PROJECT_PAID_OUT", msg.sender, block.timestamp);
     }
 
     function requestRefund(uint id) public returns (bool) {
         require(
-            projects[id].status != statusEnum.REVERTED ||
-            projects[id].status != statusEnum.DELETED,
+            projects[id].status != Status.REVERTED ||
+                projects[id].status != Status.DELETED,
             "Project not marked as revert or delete"
         );
-        
-        projects[id].status = statusEnum.REVERTED;
+
+        projects[id].status = Status.REVERTED;
         performRefund(id);
 
         return true;
     }
 
-     function payOutProject(uint id) public returns (bool) {
-
-        require(projects[id].status == statusEnum.APPROVED, "Project not Approved!");
+    function payOutProject(uint id) public returns (bool) {
         require(
-            msg.sender == projects[id].owner ||
-            msg.sender == owner,
+            projects[id].status == Status.APPROVED,
+            "Project not Approved!"
+        );
+        require(
+            msg.sender == projects[id].owner || msg.sender == owner,
             "Unauthorized Entity"
         );
 
@@ -258,26 +229,83 @@ contract DCharity {
         return true;
     }
 
-    function changeTax(uint _taxPercentage) public ownerOnly {
+    function changeTax(uint _taxPercentage) public onlyOwner {
         projectTax = _taxPercentage;
     }
 
-    function getProject(uint id) public view returns (projectStruct memory) {
+    function getProject(uint id) public view returns (Project memory) {
         require(projectExist[id], "Project not found");
 
         return projects[id];
     }
-    
-    function getProjects() public view returns (projectStruct[] memory) {
-        return projects;
+
+    function getProjectsOf(
+        address projectOwner
+    ) public view returns (Project[] memory) {
+        return projectsOf[projectOwner];
     }
-    
-    function getSupporters(uint id) public view returns (supporterStruct[] memory) {
+
+    function getSupporters(uint id) public view returns (Supporter[] memory) {
         return supportersOf[id];
     }
 
     function payTo(address to, uint256 amount) internal {
         (bool success, ) = payable(to).call{value: amount}("");
         require(success);
+    }
+
+    function getProjects() public view returns (Project[] memory) {
+        return projects;
+    }
+
+    function getAllSupporters() public view returns (Supporter[] memory) {
+        uint totalSupporters = stats.totalSupporters;
+        Supporter[] memory allSupporters = new Supporter[](totalSupporters);
+        uint counter = 0;
+
+        for (uint i = 0; i < projects.length; i++) {
+            Supporter[] memory projectSupporters = supportersOf[projects[i].id];
+
+            for (uint j = 0; j < projectSupporters.length; j++) {
+                allSupporters[counter] = projectSupporters[j];
+                counter++;
+            }
+        }
+
+        return allSupporters;
+    }
+
+    function getProjectSupporters(
+        uint id
+    ) public view returns (Supporter[] memory) {
+        require(projectExist[id], "Project not found");
+        return supportersOf[id];
+    }
+
+    function getOwnerProjects() public view returns (Project[] memory) {
+        return getProjectsOf(msg.sender);
+    }
+
+    function getOwnerProjectsCount() public view returns (uint) {
+        return projectsOf[msg.sender].length;
+    }
+
+    function getTotalProjectCount() public view returns (uint) {
+        return projects.length;
+    }
+
+    function getTotalSupportersCount() public view returns (uint) {
+        return stats.totalSupporters;
+    }
+
+    function getTotalDonationsCount() public view returns (uint) {
+        return stats.totalDonations;
+    }
+
+    function withdrawFunds(uint amount) public onlyOwner {
+        require(amount <= balance, "Insufficient balance");
+
+        balance -= amount;
+        payTo(owner, amount);
     }
 }

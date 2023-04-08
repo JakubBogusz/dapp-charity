@@ -5,7 +5,8 @@ import { isWalletConnected } from "./services/blockchain"
 import Home from "./views/Home"
 import Project from "./views/Project"
 import { ToastContainer } from "react-toastify"
-import About from "./components/About"
+import AboutPage from "./views/AboutPage"
+import DecentralizedFunds from "./views/DecentralizedFunds"
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
@@ -22,7 +23,8 @@ const App = () => {
       {loaded ? (
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/ABOUT" element={<About />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/decentralized-funds" element={<DecentralizedFunds />} />
           <Route path="/projects/:id" element={<Project />} />
         </Routes>
       ) : null}

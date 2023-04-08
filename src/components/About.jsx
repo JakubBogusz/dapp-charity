@@ -1,5 +1,6 @@
 import React from 'react'
 import Footer from './Footer';
+import InfoBoxes from './InfoBoxes';
 
 const About = () => {
 
@@ -56,8 +57,8 @@ const About = () => {
             </p>
           </div>
         </div>
+        <InfoBoxes />
       </div>
-      <Footer />
     </>
   )
 }

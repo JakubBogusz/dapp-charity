@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div className="text-center bg-white text-gray-800 pt-24 pb-16 px-6">
       <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-12">
-        <span className="capitalize">Empower Change and Cultivate Hope</span>
+        <span>Build a brighter future together</span>
         <br />
         <span>with </span>
         <span className="text-green-600">TrustFund</span>
@@ -33,7 +33,7 @@ const Hero = () => {
         </button>
       </div>
 
-      <div className="flex justify-center items-center mt-10">
+      <div className="flex justify-center items-center mt-10 bg-gray-100">
         <div
           className="flex flex-col justify-center items-center
           h-20 border shadow-md w-full"

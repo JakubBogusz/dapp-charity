@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DCharity.sol": {
-      "lastModificationDate": 1675251537317,
-      "contentHash": "2dde0173e15835e87e65d830a0a4e957",
+      "lastModificationDate": 1680960853600,
+      "contentHash": "c87a852a48ffc9f163b641689cc0bf86",
       "sourceName": "src/contracts/DCharity.sol",
       "solcConfig": {
         "version": "0.8.11",
