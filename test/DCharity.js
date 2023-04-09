@@ -46,33 +46,6 @@ describe("DCharity", function () {
     });
   });
 
-  describe("Support Project", function () {
-    it("Should support a project and emit an event", async function () {
-      const title = "Test Project";
-      const description = "This is a test project";
-      const imageURL = "https://test.com/image.jpg";
-      const cost = ethers.utils.parseEther("1");
-      const expiresAt = Math.floor(Date.now() / 1000) + 86400;
-
-      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
-
-      const supportProjectTx = await dCharity.connect(addr1).supportProject(0, { value: ethers.utils.parseEther("0.5") });
-      const supportProjectReceipt = await supportProjectTx.wait();
-
-      const blockTimestamp = await getBlockTimestamp(supportProjectReceipt.blockNumber);
-
-      expect(supportProjectReceipt.events).to.satisfy(function (events) {
-        const event = events.find(
-          (event) => event.event === "Action" && event.args.actionType === "PROJECT BACKEND"
-        );
-
-        if (!event) return false;
-
-        return event.args.executor === addr1.address && event.args.timestamp.eq(blockTimestamp);
-      });
-    });
-  });
-
   describe("Update Project", function () {
     it("Should update a project and emit an event", async function () {
       const title = "Test Project";
@@ -95,15 +68,24 @@ describe("DCharity", function () {
 
       const blockTimestamp = await getBlockTimestamp(updateProjectReceipt.blockNumber);
 
+      // Check for the correct event emission
       expect(updateProjectReceipt.events).to.satisfy(function (events) {
         const event = events.find(
-          (event) => event.event === "Action" && event.args.actionType === "PROJECT UPDATED"
+          (event) => event.event === "Action" && event.args.actionType === "PROJECT_UPDATED"
         );
 
         if (!event) return false;
 
         return event.args.executor === owner.address && event.args.timestamp.eq(blockTimestamp);
       });
+
+      // Check if the project properties are updated correctly
+      const updatedProject = await dCharity.getProject(0);
+
+      expect(updatedProject.title).to.equal(newTitle);
+      expect(updatedProject.description).to.equal(newDescription);
+      expect(updatedProject.imageURL).to.equal(newImageURL);
+      expect(updatedProject.expiresAt).to.equal(newExpiresAt);
     });
   });
 
@@ -124,15 +106,20 @@ describe("DCharity", function () {
 
       const blockTimestamp = await getBlockTimestamp(deleteProjectReceipt.blockNumber);
 
+      // Check for the correct event emission
       expect(deleteProjectReceipt.events).to.satisfy(function (events) {
         const event = events.find(
-          (event) => event.event === "Action" && event.args.actionType === "PROJECT DELETED"
+          (event) => event.event === "Action" && event.args.actionType === "PROJECT_DELETED"
         );
 
         if (!event) return false;
 
         return event.args.executor === owner.address && event.args.timestamp.eq(blockTimestamp);
       });
+
+      // Check if the project status is updated to DELETED
+      const deletedProject = await dCharity.getProject(0);
+      expect(deletedProject.status).to.equal(3); // 3 - Status.DELETED
     });
   });
 
@@ -158,12 +145,19 @@ describe("DCharity", function () {
 
       // Support the project and wait for the transaction to be mined
       const supportProjectTx = await dCharity.connect(addr1).supportProject(0, { value: supportAmount });
-      await supportProjectTx.wait();
+      const supportProjectReceipt = await supportProjectTx.wait();
 
-      const blockTimestamp = await getBlockTimestamp(supportProjectTx.blockNumber);
-      await expect(supportProjectTx)
-        .to.emit(dCharity, "Action")
-        .withArgs(0, "PROJECT BACKEND", addr1.address, blockTimestamp);
+      const blockTimestamp = await getBlockTimestamp(supportProjectReceipt.blockNumber);
+
+      expect(supportProjectReceipt.events).to.satisfy(function (events) {
+        const event = events.find(
+          (event) => event.event === "Action" && event.args.actionType === "PROJECT_BACKED"
+        );
+
+        if (!event) return false;
+
+        return event.args.executor === addr1.address && event.args.timestamp.eq(blockTimestamp);
+      });
     });
 
     it("Should update the project status to PAIDOUT", async function () {
@@ -171,14 +165,15 @@ describe("DCharity", function () {
       const description = "This is a test project";
       const imageURL = "https://test.com/image.jpg";
       const cost = ethers.utils.parseEther("1");
-      const expiresAt = Math.floor(Date.now() / 1000) + 3600; // expires in one hour
+      const expiresAt = Math.floor(Date.now() / 1000) + 3600;
       await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
 
       // Support the project to fully fund it and update the status to PAIDOUT
       await dCharity.connect(addr1).supportProject(0, { value: cost });
 
       const updatedProjectStatus = (await dCharity.getProject(0)).status;
-      expect(updatedProjectStatus).to.equal(4);
+      expect(updatedProjectStatus).to.equal(4); // 4 - Status.PAIDOUT
     });
   });
+
 });
