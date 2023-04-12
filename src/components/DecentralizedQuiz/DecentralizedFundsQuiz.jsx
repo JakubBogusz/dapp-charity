@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import QuizQuestion from './QuizQuestion';
 import quizData from "./logic";
+import { Link } from 'react-router-dom';
 
 const DecentralizedFundsQuiz = () => {
   const [score, setScore] = useState(0);
@@ -14,9 +15,10 @@ const DecentralizedFundsQuiz = () => {
   };
 
   const getTitle = () => {
+    const percentageScore = (score / quizData.length) * 100;
     if (!completed) {
       return "Not sure if you're ready to create your own decentralized charity project? Check our quiz and decide!";
-    } else if (score > 15) {
+    } else if (percentageScore >= 60) {
       return "Congratulations! You're ready to create your own decentralized charity project!";
     } else {
       return "It's okay! Keep learning about decentralized funds and cryptocurrencies.";
@@ -27,10 +29,14 @@ const DecentralizedFundsQuiz = () => {
     if (score >= quizData.length - 1) {
       return (
         <>
-          <p>You seem quite advanced in the world of decentralized funds and cryptocurrencies! We recommend joining our platform and creating your own project with us.</p>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-            Join Now
-          </button>
+          <p>You seem quite advanced in the world of decentralized funds and cryptocurrencies!
+            We recommend joining our platform and creating your own project with us.
+          </p>
+          <Link to="/">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+              Join Now
+            </button>
+          </Link>
         </>
       );
     } else {
