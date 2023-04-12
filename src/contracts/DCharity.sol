@@ -109,6 +109,7 @@ contract DCharity {
         string memory imageURL,
         uint expiresAt
     ) public returns (bool) {
+        require(projectExist[id], "Project not found");
         require(msg.sender == projects[id].owner, "Unauthorized Entity");
         require(bytes(title).length > 0, "Title cannot be empty!");
         require(bytes(description).length > 0, "Description cannot be empty!");
@@ -130,6 +131,7 @@ contract DCharity {
             "Project no longer opened!"
         );
         require(msg.sender == projects[id].owner, "Unauthorized Entity");
+        require(projectExist[id], "Project not found");
 
         projects[id].status = Status.DELETED;
         performRefund(id);
@@ -203,10 +205,11 @@ contract DCharity {
     }
 
     function requestRefund(uint id) public returns (bool) {
+        require(projectExist[id], "Project not found");
         require(
             projects[id].status != Status.REVERTED ||
                 projects[id].status != Status.DELETED,
-            "Project not marked as revert or delete"
+            "Project not marked as reverted or deleted"
         );
 
         projects[id].status = Status.REVERTED;
@@ -216,6 +219,7 @@ contract DCharity {
     }
 
     function payOutProject(uint id) public returns (bool) {
+        require(projectExist[id], "Project not found");
         require(
             projects[id].status == Status.APPROVED,
             "Project not Approved!"

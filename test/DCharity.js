@@ -7,12 +7,23 @@ describe("DCharity", function () {
   beforeEach(async function () {
     DCharity = await ethers.getContractFactory("DCharity");
     [owner, addr1, addr2] = await ethers.getSigners();
-    dCharity = await DCharity.deploy(5);
+    dCharity = await DCharity.deploy(5); // pass 5% tax as param
   });
 
   async function getBlockTimestamp(blockNumber) {
     const block = await ethers.provider.getBlock(blockNumber);
     return block.timestamp;
+  }
+
+  function setupTestProjectData() {
+    return {
+      title: "Test Project",
+      description: "This is a test project description",
+      imageURL: "https://test.com/image.jpg",
+      cost: ethers.utils.parseEther("1"),
+      //expires at 1 day from now, in seconds
+      expiresAt: Math.floor(Date.now() / 1000) + 86400
+    };
   }
 
   describe("Deployment", function () {
@@ -23,19 +34,18 @@ describe("DCharity", function () {
   });
 
   describe("Create Project", function () {
-    it("Should create a project and emit an event", async function () {
-      const title = "Test Project";
-      const description = "This is a test project";
-      const imageURL = "https://test.com/image.jpg";
-      const cost = ethers.utils.parseEther("1");
-      const expiresAt = Math.floor(Date.now() / 1000) + 86400;
+    const { title, description, imageURL, cost, expiresAt } = setupTestProjectData();
 
-      const createProjectTx = await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+    it("Should create a project and emit an event", async function () {
+      const createProjectTx = await dCharity
+        .connect(owner)
+        .createProject(title, description, imageURL, cost, expiresAt);
+
       const createProjectReceipt = await createProjectTx.wait();
 
       expect(createProjectReceipt.events).to.satisfy(async function (events) {
         const event = events.find(
-          (event) => event.event === "Action" && event.args.actionType === "PROJECT CREATED"
+          (e) => e.event === "Action" && e.args.actionType === "PROJECT CREATED"
         );
 
         if (!event) return false;
@@ -44,16 +54,20 @@ describe("DCharity", function () {
         return event.args.executor === owner.address && event.args.timestamp.eq(block.timestamp);
       });
     });
+
+    it("Should failed when at least one of required fields is empty", async function () {
+      const emptyTitle = "";
+
+      await expect(
+        dCharity.connect(owner).createProject(emptyTitle, description, imageURL, cost, expiresAt)
+      ).to.be.revertedWith("Title cannot be empty!");
+    });
   });
 
   describe("Update Project", function () {
-    it("Should update a project and emit an event", async function () {
-      const title = "Test Project";
-      const description = "This is a test project";
-      const imageURL = "https://test.com/image.jpg";
-      const cost = ethers.utils.parseEther("1");
-      const expiresAt = Math.floor(Date.now() / 1000) + 86400;
+    const { title, description, imageURL, cost, expiresAt } = setupTestProjectData();
 
+    it("Should update a project and emit an event", async function () {
       await dCharity
         .connect(owner)
         .createProject(title, description, imageURL, cost, expiresAt);
@@ -71,7 +85,7 @@ describe("DCharity", function () {
       // Check for the correct event emission
       expect(updateProjectReceipt.events).to.satisfy(function (events) {
         const event = events.find(
-          (event) => event.event === "Action" && event.args.actionType === "PROJECT_UPDATED"
+          (e) => e.event === "Action" && e.args.actionType === "PROJECT_UPDATED"
         );
 
         if (!event) return false;
@@ -90,13 +104,9 @@ describe("DCharity", function () {
   });
 
   describe("Delete Project", function () {
-    it("Should delete a project and emit an event", async function () {
-      const title = "Test Project";
-      const description = "This is a test project";
-      const imageURL = "https://test.com/image.jpg";
-      const cost = ethers.utils.parseEther("1");
-      const expiresAt = Math.floor(Date.now() / 1000) + 86400;
+    const { title, description, imageURL, cost, expiresAt } = setupTestProjectData();
 
+    it("Should delete a project and emit an event", async function () {
       await dCharity
         .connect(owner)
         .createProject(title, description, imageURL, cost, expiresAt);
@@ -109,7 +119,7 @@ describe("DCharity", function () {
       // Check for the correct event emission
       expect(deleteProjectReceipt.events).to.satisfy(function (events) {
         const event = events.find(
-          (event) => event.event === "Action" && event.args.actionType === "PROJECT_DELETED"
+          (e) => e.event === "Action" && e.args.actionType === "PROJECT_DELETED"
         );
 
         if (!event) return false;
@@ -133,13 +143,9 @@ describe("DCharity", function () {
   });
 
   describe("Support Project", function () {
-    it("Should support a project and emit an event", async function () {
-      const title = "Test Project";
-      const description = "This is a test project";
-      const imageURL = "https://test.com/image.jpg";
-      const cost = ethers.utils.parseEther("1");
-      const expiresAt = Math.floor(Date.now() / 1000) + 86400;
+    const { title, description, imageURL, cost, expiresAt } = setupTestProjectData();
 
+    it("Should support a project and emit an event", async function () {
       await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
       const supportAmount = ethers.utils.parseEther("1");
 
@@ -151,7 +157,7 @@ describe("DCharity", function () {
 
       expect(supportProjectReceipt.events).to.satisfy(function (events) {
         const event = events.find(
-          (event) => event.event === "Action" && event.args.actionType === "PROJECT_BACKED"
+          (e) => e.event === "Action" && e.args.actionType === "PROJECT_BACKED"
         );
 
         if (!event) return false;
@@ -166,6 +172,7 @@ describe("DCharity", function () {
       const imageURL = "https://test.com/image.jpg";
       const cost = ethers.utils.parseEther("1");
       const expiresAt = Math.floor(Date.now() / 1000) + 3600;
+
       await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
 
       // Support the project to fully fund it and update the status to PAIDOUT
@@ -176,4 +183,29 @@ describe("DCharity", function () {
     });
   });
 
+  describe("getAllSupporters", function () {
+    const { title, description, imageURL, cost, expiresAt } = setupTestProjectData();
+
+    it("Should return all supporters", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+
+      const supportAmount1 = ethers.utils.parseEther("0.5");
+      await dCharity.connect(addr1).supportProject(0, { value: supportAmount1 });
+
+      const supportAmount2 = ethers.utils.parseEther("1");
+      await dCharity.connect(addr1).supportProject(0, { value: supportAmount2 });
+
+      const allSupporters = await dCharity.getAllSupporters();
+
+      // Check if the returned array has the correct length
+      expect(allSupporters.length).to.equal(2);
+
+      // Access tuple properties if the data is returned as a tuple
+      expect(allSupporters[0][0]).to.equal(addr1.address);
+      expect(allSupporters[0][1].toString()).to.equal(supportAmount1.toString());
+
+      expect(allSupporters[1][0]).to.equal(addr1.address);
+      expect(allSupporters[1][1].toString()).to.equal(supportAmount2.toString());
+    });
+  });
 });
