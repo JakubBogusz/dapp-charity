@@ -36,7 +36,7 @@ const InfoBoxes = () => {
   ];
 
   return (
-    <div className="flex flex-wrap justify-center md:justify-around">
+    <div className="flex flex-wrap justify-center md:justify-center">
       {boxesData.map((box, index) => (
         <BoxTemplate
           key={index}

@@ -26,10 +26,13 @@ const DecentralizedFundsQuiz = () => {
   };
 
   const getRecommendation = () => {
-    if (score >= quizData.length - 1) {
+    const percentageScore = (score / quizData.length) * 100;
+
+    if (percentageScore >= 60) {
       return (
         <>
-          <p>You seem quite advanced in the world of decentralized funds and cryptocurrencies!
+          <p>
+            Congratulations! You have a strong understanding of decentralized funds and cryptocurrencies, scoring {percentageScore}% on the quiz!
             We recommend joining our platform and creating your own project with us.
           </p>
           <Link to="/">
@@ -43,7 +46,8 @@ const DecentralizedFundsQuiz = () => {
       return (
         <>
           <p>
-            It seems like you might still be a beginner in the world of cryptocurrencies and decentralized funds. We recommend learning more on websites like{' '}
+            It seems like you might still be a beginner in the world of cryptocurrencies and decentralized funds, scoring {percentageScore}% on the quiz.
+            We recommend learning more on websites like{' '}
             <a href="https://www.binance.com/" target="_blank" rel="noreferrer" className="text-blue-500 underline">
               Binance
             </a>
