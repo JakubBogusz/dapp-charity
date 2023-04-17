@@ -2,12 +2,13 @@ import { useEffect } from "react"
 import AddButton from "../components/AddButton"
 import CreateProject from "../components/CreateProject"
 import Footer from "../components/Footer"
-import Hero from "../components/Hero"
+import ProjectSection from "../components/ProjectSection"
 import OurMission from "../components/OurMission"
 import Projects from "../components/Projects"
 import { loadProjects } from "../services/blockchain"
 import { useGlobalState } from "../store"
 import InfoBoxes from "../components/InfoBoxes"
+import Hero from "../components/Hero"
 
 const Home = () => {
   const [projects] = useGlobalState('projects');
@@ -19,6 +20,7 @@ const Home = () => {
   return (
     <>
         <Hero />
+        <ProjectSection />
         <Projects projects={projects}/>
         <InfoBoxes />
         <CreateProject />

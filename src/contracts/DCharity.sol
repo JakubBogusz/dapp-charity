@@ -249,10 +249,6 @@ contract DCharity {
         return projectsOf[projectOwner];
     }
 
-    function getSupporters(uint id) public view returns (Supporter[] memory) {
-        return supportersOf[id];
-    }
-
     function payTo(address to, uint256 amount) internal {
         (bool success, ) = payable(to).call{value: amount}("");
         require(success);
@@ -260,6 +256,13 @@ contract DCharity {
 
     function getProjects() public view returns (Project[] memory) {
         return projects;
+    }
+
+     function getSupporters(
+        uint id
+    ) public view returns (Supporter[] memory) {
+        require(projectExist[id], "Project not found");
+        return supportersOf[id];
     }
 
     function getAllSupporters() public view returns (Supporter[] memory) {
@@ -277,13 +280,6 @@ contract DCharity {
         }
 
         return allSupporters;
-    }
-
-    function getProjectSupporters(
-        uint id
-    ) public view returns (Supporter[] memory) {
-        require(projectExist[id], "Project not found");
-        return supportersOf[id];
     }
 
     function getOwnerProjects() public view returns (Project[] memory) {

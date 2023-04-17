@@ -7,6 +7,7 @@ import Project from "./views/Project"
 import { ToastContainer } from "react-toastify"
 import AboutPage from "./views/AboutPage"
 import DecentralizedFunds from "./views/DecentralizedFunds"
+import PreviousProjects from "./views/PreviousProjects"
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
@@ -24,6 +25,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/previous-projects" element={<PreviousProjects />}/>
           <Route path="/decentralized-funds" element={<DecentralizedFunds />} />
           <Route path="/projects/:id" element={<Project />} />
         </Routes>

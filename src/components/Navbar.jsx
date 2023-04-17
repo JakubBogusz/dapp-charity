@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="flex space-x-8">
         <Link to="/about" className="text-black hover:text-green-600">About</Link>
         <Link to="/previous-projects" className="text-black hover:text-green-600">Previous Projects</Link>
-        <Link to="/decentralized-funds" className="text-black hover:text-green-600">Decentralized Funds</Link>
+        <Link to="/decentralized-funds" className="text-black hover:text-green-700">Decentralized Funds</Link>
       </div>
 
       <div className='flex space-x-2 justify-center'>
