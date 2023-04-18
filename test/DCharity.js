@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("DCharity", function () {
-  let owner, addr1, addr2, DCharity, dCharity;
+  let owner, addr1, addr2, DCharity, dCharity, signers;
 
   beforeEach(async function () {
     DCharity = await ethers.getContractFactory("DCharity");
@@ -62,6 +62,23 @@ describe("DCharity", function () {
         dCharity.connect(owner).createProject(emptyTitle, description, imageURL, cost, expiresAt)
       ).to.be.revertedWith("Title cannot be empty!");
     });
+
+    it("Should fail when the cost is zero", async function () {
+      const zeroCost = 0;
+
+      await expect(
+        dCharity.connect(owner).createProject(title, description, imageURL, zeroCost, expiresAt)
+      ).to.be.revertedWith("Cost cannot be zero!");
+    });
+
+    it("Should increment the project count after creating a project", async function () {
+      const initialProjectCount = await dCharity.projectCount();
+
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+
+      const updatedProjectCount = await dCharity.projectCount();
+      expect(updatedProjectCount).to.equal(initialProjectCount.add(1));
+    });
   });
 
   describe("Update Project", function () {
@@ -101,6 +118,45 @@ describe("DCharity", function () {
       expect(updatedProject.imageURL).to.equal(newImageURL);
       expect(updatedProject.expiresAt).to.equal(newExpiresAt);
     });
+
+    it("Should fail when a non-owner tries to update the project", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+
+      const newTitle = "Updated Test Project";
+      const newDescription = "This is an updated test project";
+      const newImageURL = "https://test.com/updated-image.jpg";
+      const newExpiresAt = Math.floor(Date.now() / 1000) + 172800;
+
+      // addr1 is not owner
+      await expect(
+        dCharity.connect(addr1).updateProject(0, newTitle, newDescription, newImageURL, newExpiresAt)
+      ).to.be.revertedWith("Unauthorized Entity");
+    });
+
+    it("Should fail when trying to update a non-existing project", async function () {
+      const nonExistingProjectId = 99;
+      const newTitle = "Updated Test Project";
+      const newDescription = "This is an updated test project";
+      const newImageURL = "https://test.com/updated-image.jpg";
+      const newExpiresAt = Math.floor(Date.now() / 1000) + 172800;
+
+      await expect(
+        dCharity.connect(owner).updateProject(nonExistingProjectId, newTitle, newDescription, newImageURL, newExpiresAt)
+      ).to.be.revertedWith("Project not found");
+    });
+
+    it("Should fail when updating the project with an empty title", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+
+      const emptyTitle = "";
+      const newDescription = "This is an updated test project";
+      const newImageURL = "https://test.com/updated-image.jpg";
+      const newExpiresAt = Math.floor(Date.now() / 1000) + 172800;
+
+      await expect(
+        dCharity.connect(owner).updateProject(0, emptyTitle, newDescription, newImageURL, newExpiresAt)
+      ).to.be.revertedWith("Title cannot be empty!");
+    });
   });
 
   describe("Delete Project", function () {
@@ -131,14 +187,41 @@ describe("DCharity", function () {
       const deletedProject = await dCharity.getProject(0);
       expect(deletedProject.status).to.equal(3); // 3 - Status.DELETED
     });
+
+    it("Should fail when a non-owner tries to delete the project", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+
+      await expect(
+        dCharity.connect(addr1).deleteProject(0)
+      ).to.be.revertedWith("Unauthorized Entity");
+    });
   });
 
   describe("Change Project Tax", function () {
+    it("Should fail when setting an invalid tax value", async function () {
+      await expect(
+        dCharity.connect(owner).changeTax(101)
+      ).to.be.revertedWith("Invalid tax value");
+    });
+
     it("Should change project tax only by the owner", async function () {
       await expect(dCharity.connect(owner).changeTax(10)).to.not.be.reverted;
       expect(await dCharity.projectTax()).to.equal(10);
 
-      await expect(dCharity.connect(addr1).changeTax(15)).to.be.revertedWith("Owner reserved only");
+      await expect(dCharity.connect(addr1).changeTax(15)).to.be.revertedWith("Operation allowed only for the owner");
+    });
+
+    it("Should keep the tax value unchanged if the changeTax call is reverted", async function () {
+      const initialTax = await dCharity.projectTax();
+
+      if (addr1.address !== owner.address) {
+        await expect(dCharity.connect(addr1).changeTax(15)).to.be.revertedWith("Operation allowed only for the owner");
+      } else {
+        await expect(dCharity.connect(addr2).changeTax(15)).to.be.revertedWith("Operation allowed only for the owner");
+      }
+
+      const currentTax = await dCharity.projectTax();
+      expect(currentTax).to.equal(initialTax);
     });
   });
 
@@ -181,6 +264,66 @@ describe("DCharity", function () {
       const updatedProjectStatus = (await dCharity.getProject(0)).status;
       expect(updatedProjectStatus).to.equal(4); // 4 - Status.PAIDOUT
     });
+
+    it("Should fail when supporting a non-existent project", async function () {
+      const supportAmount = ethers.utils.parseEther("1");
+      await expect(dCharity.connect(addr1).supportProject(0, { value: supportAmount })).to.be.revertedWith("Project not found");
+    });
+
+    it("Should fail when supporting a project with an amount of 0", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+      await expect(dCharity.connect(addr1).supportProject(0, { value: 0 })).to.be.revertedWith("Ether amount must be greater than zero");
+    });
+
+    // TODO - it("Should fail when supporting a project that has already reached its expiration time")
+
+    it("Should fail when supporting a project that has already been deleted", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+      await dCharity.connect(owner).deleteProject(0);
+      const supportAmount = ethers.utils.parseEther("1");
+      await expect(dCharity.connect(addr1).supportProject(0, { value: supportAmount })).to.be.revertedWith("Project no longer opened");
+    });
+
+    it("Should fail when supporting a project that has already reached its funding goal", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+      await dCharity.connect(addr1).supportProject(0, { value: cost }); // Fully fund the project
+      const extraSupportAmount = ethers.utils.parseEther("0.1");
+      await expect(dCharity.connect(addr2).supportProject(0, { value: extraSupportAmount })).to.be.revertedWith("Project no longer opened");
+    });
+
+    // it("Should distribute the support amount to the project owner and tax pool correctly", async function () {
+    //   const { title, description, imageURL, cost, expiresAt } = setupTestProjectData();
+    //   const supportAmount = ethers.utils.parseEther("1");
+    //   const initialBalance = await ethers.provider.getBalance(dCharity.address);
+
+    //   // Create the project and support it
+    //   await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+    //   await dCharity.connect(addr1).supportProject(0, { value: supportAmount });
+
+    //   // Check the project status after it is funded to ensure it has been approved
+    //   const afterFundedStatus = await dCharity.getProjectStatus(0);
+    //   expect(afterFundedStatus).to.equal(1); // 1 - Status.APPROVED
+
+    //   // Perform the payout
+    //   await dCharity.connect(owner).payOutProject(0);
+
+    //   // Check the project status after payout
+    //   const afterPayoutStatus = await dCharity.getProjectStatus(0);
+    //   expect(afterPayoutStatus).to.equal(4); // 4 - Status.PAIDOUT
+
+    //   const taxPercentage = await dCharity.projectTax();
+    //   const projectOwnerBalance = await ethers.provider.getBalance(owner.address);
+    //   const taxPoolBalance = await ethers.provider.getBalance(dCharity.address);
+
+    //   // Calculate the expected amounts
+    //   const expectedTax = supportAmount.mul(taxPercentage).div(100);
+    //   const expectedProjectOwnerBalance = supportAmount.sub(expectedTax);
+
+    //   expect(projectOwnerBalance).to.equal(expectedProjectOwnerBalance);
+    //   expect(taxPoolBalance).to.equal(expectedTax.add(initialBalance));
+    // });
+
+    // TODO -it("Should update the project's supporters count after a successful support", async function () {
   });
 
   describe("getAllSupporters", function () {
