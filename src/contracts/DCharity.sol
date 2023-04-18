@@ -49,7 +49,7 @@ contract DCharity {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Owner reserved only");
+        require(msg.sender == owner, "Operation allowed only for the owner");
         _;
     }
 
@@ -171,20 +171,28 @@ contract DCharity {
 
         emit Action(id, "PROJECT_BACKED", msg.sender, block.timestamp);
 
-        if (projects[id].raised >= projects[id].cost) {
+        if (isProjectFunded(projects[id])) {
             projects[id].status = Status.APPROVED;
             balance += projects[id].raised;
             performPayout(id);
-            return true;
-        }
-
-        if (block.timestamp >= projects[id].expiresAt) {
+        } else if (isProjectExpired(projects[id])) {
             projects[id].status = Status.REVERTED;
             performRefund(id);
-            return true;
         }
 
         return true;
+    }
+
+    function isProjectFunded(
+        Project memory project
+    ) internal pure returns (bool) {
+        return project.raised >= project.cost;
+    }
+
+    function isProjectExpired(
+        Project memory project
+    ) internal view returns (bool) {
+        return block.timestamp >= project.expiresAt;
     }
 
     function performPayout(uint id) internal {
@@ -234,6 +242,7 @@ contract DCharity {
     }
 
     function changeTax(uint _taxPercentage) public onlyOwner {
+        require(_taxPercentage <= 100, "Invalid tax value");
         projectTax = _taxPercentage;
     }
 
@@ -258,9 +267,7 @@ contract DCharity {
         return projects;
     }
 
-     function getSupporters(
-        uint id
-    ) public view returns (Supporter[] memory) {
+    function getSupporters(uint id) public view returns (Supporter[] memory) {
         require(projectExist[id], "Project not found");
         return supportersOf[id];
     }
@@ -282,24 +289,18 @@ contract DCharity {
         return allSupporters;
     }
 
-    function getOwnerProjects() public view returns (Project[] memory) {
-        return getProjectsOf(msg.sender);
-    }
-
-    function getOwnerProjectsCount() public view returns (uint) {
-        return projectsOf[msg.sender].length;
-    }
-
-    function getTotalProjectCount() public view returns (uint) {
-        return projects.length;
-    }
-
     function getTotalSupportersCount() public view returns (uint) {
         return stats.totalSupporters;
     }
 
     function getTotalDonationsCount() public view returns (uint) {
         return stats.totalDonations;
+    }
+
+    function getProjectStatus(uint id) public view returns (uint) {
+        require(projectExist[id], "Project not found");
+
+        return uint(projects[id].status);
     }
 
     function withdrawFunds(uint amount) public onlyOwner {

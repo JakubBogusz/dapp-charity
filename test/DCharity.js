@@ -291,38 +291,6 @@ describe("DCharity", function () {
       await expect(dCharity.connect(addr2).supportProject(0, { value: extraSupportAmount })).to.be.revertedWith("Project no longer opened");
     });
 
-    // it("Should distribute the support amount to the project owner and tax pool correctly", async function () {
-    //   const { title, description, imageURL, cost, expiresAt } = setupTestProjectData();
-    //   const supportAmount = ethers.utils.parseEther("1");
-    //   const initialBalance = await ethers.provider.getBalance(dCharity.address);
-
-    //   // Create the project and support it
-    //   await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
-    //   await dCharity.connect(addr1).supportProject(0, { value: supportAmount });
-
-    //   // Check the project status after it is funded to ensure it has been approved
-    //   const afterFundedStatus = await dCharity.getProjectStatus(0);
-    //   expect(afterFundedStatus).to.equal(1); // 1 - Status.APPROVED
-
-    //   // Perform the payout
-    //   await dCharity.connect(owner).payOutProject(0);
-
-    //   // Check the project status after payout
-    //   const afterPayoutStatus = await dCharity.getProjectStatus(0);
-    //   expect(afterPayoutStatus).to.equal(4); // 4 - Status.PAIDOUT
-
-    //   const taxPercentage = await dCharity.projectTax();
-    //   const projectOwnerBalance = await ethers.provider.getBalance(owner.address);
-    //   const taxPoolBalance = await ethers.provider.getBalance(dCharity.address);
-
-    //   // Calculate the expected amounts
-    //   const expectedTax = supportAmount.mul(taxPercentage).div(100);
-    //   const expectedProjectOwnerBalance = supportAmount.sub(expectedTax);
-
-    //   expect(projectOwnerBalance).to.equal(expectedProjectOwnerBalance);
-    //   expect(taxPoolBalance).to.equal(expectedTax.add(initialBalance));
-    // });
-
     // TODO -it("Should update the project's supporters count after a successful support", async function () {
   });
 
