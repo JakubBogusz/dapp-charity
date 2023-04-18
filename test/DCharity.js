@@ -275,8 +275,6 @@ describe("DCharity", function () {
       await expect(dCharity.connect(addr1).supportProject(0, { value: 0 })).to.be.revertedWith("Ether amount must be greater than zero");
     });
 
-    // TODO - it("Should fail when supporting a project that has already reached its expiration time")
-
     it("Should fail when supporting a project that has already been deleted", async function () {
       await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
       await dCharity.connect(owner).deleteProject(0);
@@ -291,7 +289,21 @@ describe("DCharity", function () {
       await expect(dCharity.connect(addr2).supportProject(0, { value: extraSupportAmount })).to.be.revertedWith("Project no longer opened");
     });
 
-    // TODO -it("Should update the project's supporters count after a successful support", async function () {
+    it("Should update the project's supporters count after a successful support", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+
+      const initialSupportersCount = await dCharity.getTotalSupportersCount();
+      const supportAmount = ethers.utils.parseEther("1");
+      await dCharity.connect(addr1).supportProject(0, { value: supportAmount });
+
+      // Get the updated supporters count
+      const updatedSupportersCount = await dCharity.getTotalSupportersCount();
+
+      // Check that the supporters count has increased by 1
+      expect(updatedSupportersCount).to.equal(initialSupportersCount.add(1));
+    });
+
+    // it("Should payout the project owner and platform owner correctly when a project is fully funded"
   });
 
   describe("getAllSupporters", function () {
