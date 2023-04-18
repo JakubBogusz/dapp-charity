@@ -9,12 +9,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-ethers": "^2.1.0",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "chai-bn": "^0.3.1",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.9",
     "hardhat": "^2.10.1",
