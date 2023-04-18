@@ -35,41 +35,6 @@
       "artifacts": [
         "DCharity"
       ]
-    },
-    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\Token.sol": {
-      "lastModificationDate": 1681307470477,
-      "contentHash": "19f0a9124c76601f58186b3e94b778c9",
-      "sourceName": "src/contracts/Token.sol",
-      "solcConfig": {
-        "version": "0.8.11",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.9"
-      ],
-      "artifacts": [
-        "Token"
-      ]
     }
   }
 }
