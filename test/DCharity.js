@@ -2,10 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 require("chai").use(require("chai-bn")(ethers.BigNumber));
-// const chaiBN = require("chai-bn")(ethers.BigNumber);
 
-
-require("chai").use(require("chai-bn")(ethers.BigNumber));
 
 describe("DCharity", function () {
   let owner, addr1, addr2, DCharity, dCharity, signers;
@@ -373,6 +370,58 @@ describe("DCharity", function () {
 
       expect(allSupporters[1][0]).to.equal(addr1.address);
       expect(allSupporters[1][1].toString()).to.equal(supportAmount2.toString());
+    });
+
+    it("Should return all supporters for multiple projects", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+
+      // Support 2 projects
+      const supportAmount1 = ethers.utils.parseEther("0.5");
+      await dCharity.connect(addr1).supportProject(0, { value: supportAmount1 });
+
+      const supportAmount2 = ethers.utils.parseEther("1");
+      await dCharity.connect(addr2).supportProject(1, { value: supportAmount2 });
+
+      const allSupporters = await dCharity.getAllSupporters();
+
+      expect(allSupporters.length).to.equal(2);
+
+      // Check the supporters details
+      expect(allSupporters[0][0]).to.equal(addr1.address);
+      expect(allSupporters[0][1].toString()).to.equal(supportAmount1.toString());
+
+      expect(allSupporters[1][0]).to.equal(addr2.address);
+      expect(allSupporters[1][1].toString()).to.equal(supportAmount2.toString());
+    });
+
+    it("Should return an empty list of supporters", async function () {
+      const allSupporters = await dCharity.getAllSupporters();
+      expect(allSupporters.length).to.equal(0);
+    });
+
+    it("Should return the correct total supporters count", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+      const supportAmount = ethers.utils.parseEther("0.5");
+      await dCharity.connect(addr1).supportProject(0, { value: supportAmount });
+
+      const totalSupportersCount = await dCharity.getTotalSupportersCount();
+
+      expect(totalSupportersCount).to.equal(1);
+    });
+
+    it("Should return the correct total donations amount", async function () {
+      await dCharity.connect(owner).createProject(title, description, imageURL, cost, expiresAt);
+      const supportAmount1 = ethers.utils.parseEther("0.5");
+      await dCharity.connect(addr1).supportProject(0, { value: supportAmount1 });
+      const supportAmount2 = ethers.utils.parseEther("1");
+      await dCharity.connect(addr1).supportProject(0, { value: supportAmount2 });
+
+      const totalDonationsAmount = await dCharity.getTotalDonationsCount();
+
+      // Check if the amount is correct
+      const expectedTotalDonationsAmount = supportAmount1.add(supportAmount2);
+      expect(totalDonationsAmount.toString()).to.equal(expectedTotalDonationsAmount.toString());
     });
   });
 });
