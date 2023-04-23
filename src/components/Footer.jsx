@@ -3,11 +3,11 @@ import React from 'react'
 const Footer = () => {
   return (
     <>
-     <div class="w-full flex items-center justify-center">
+     <div class="w-full flex items-center justify-center mt-2">
         <footer class="p-4 w-full bg-white sm:p-6 dark:bg-gray-800">
-          <div class="md:flex md:justify-evenly">
-            <div class="mb-6 md:mb-0 lg:max-w-lg flex items-center">
-              <a href="#" target="_blank" class="flex ">
+          <div class="md:flex md:justify-center">
+            <div class="mb-6 md:mb-0 md:mr-32 lg:max-w-lg flex items-center">
+              <a href="/" class="flex">
                 <img src="/images/charity_logo.png" class="mr-2 h-10" alt="TrustFund Logo" />
                 <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">TrustFund</span>
               </a>
@@ -17,12 +17,12 @@ const Footer = () => {
                 <h3 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h3>
                 <ul>
                   <li class="mb-4">
-                    <a href="#" target="_blank"
-                      class="text-gray-600 hover:underline dark:text-gray-400">TrustFund</a>
+                    <a href="https://ethereum.org/en/foundation/" target="_blank"
+                      class="text-gray-600 hover:underline dark:text-gray-400">Ethereum Found</a>
                   </li>
                   <li>
                     <a href="https://www.binance.charity/" target="_blank" rel="nofollow"
-                      class="text-gray-600 hover:underline dark:text-gray-400">Binance charity</a>
+                      class="text-gray-600 hover:underline dark:text-gray-400">Binance Charity</a>
                   </li>
                 </ul>
               </div>
@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
           <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <div class="sm:flex sm:items-center sm:justify-center gap-6">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 TrustFund.
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 TrustFund.
             </span>
             <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
               <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">

@@ -5,6 +5,7 @@ import ProjectsHeader from '../components/ProjectsHeader';
 
 import { useEffect } from 'react';
 import { useGlobalState } from "../store"
+import { loadProjects } from "../services/blockchain"
 
 
 const PreviousProjects = () => {

@@ -1,10 +1,47 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DCharity.sol": {
-      "lastModificationDate": 1681856280821,
-      "contentHash": "c5049331d5d21bb888760b0ae3cab2af",
-      "sourceName": "src/contracts/DCharity.sol",
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\CharityStorage.sol": {
+      "lastModificationDate": 1682245038075,
+      "contentHash": "eb7723de5a1c2e1a5493618f52f870f0",
+      "sourceName": "src/contracts/CharityStorage.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./DataTypes.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "CharityStorage"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DataTypes.sol": {
+      "lastModificationDate": 1682245060135,
+      "contentHash": "7b5233a323685347fafc950b501de9c7",
+      "sourceName": "src/contracts/DataTypes.sol",
       "solcConfig": {
         "version": "0.8.11",
         "settings": {
@@ -33,7 +70,158 @@
         "^0.8.9"
       ],
       "artifacts": [
+        "DataTypes"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ProjectUtils.sol": {
+      "lastModificationDate": 1682246945276,
+      "contentHash": "3faa4ebae24139895f6eada918fe973f",
+      "sourceName": "src/contracts/ProjectUtils.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./DataTypes.sol",
+        "./CharityStorage.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "ProjectUtils"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\SupportProjects.sol": {
+      "lastModificationDate": 1682246846213,
+      "contentHash": "84926f7b02ae8995702dd027b6412c7b",
+      "sourceName": "src/contracts/SupportProjects.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ProjectUtils.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "SupportProjects"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DCharity.sol": {
+      "lastModificationDate": 1682246894771,
+      "contentHash": "5b523970b2ebf09d54003f37c18ee055",
+      "sourceName": "src/contracts/DCharity.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ManageProjects.sol",
+        "./SupportProjects.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
         "DCharity"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ManageProjects.sol": {
+      "lastModificationDate": 1682246894771,
+      "contentHash": "06d6c30f0b588c03703d1d59e2b4e435",
+      "sourceName": "src/contracts/ManageProjects.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./DataTypes.sol",
+        "./ProjectUtils.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "ManageProjects"
       ]
     }
   }

@@ -36,7 +36,7 @@ const ProjectsHeader = () => {
               <a
                 href="/home"
                 aria-label=""
-                className="inline-flex items-center font-semibold tracking-wider transition-colors duration-200 text-black"
+                className="inline-flex items-center font-semibold tracking-wider transition-colors duration-200 text-white"
               >
                 Learn more
                 <svg
