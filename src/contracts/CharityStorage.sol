@@ -11,6 +11,7 @@ contract CharityStorage {
     DataTypes.Stats public stats;
     DataTypes.Project[] public projects;
 
+    mapping(address => uint256) public withdrawals;
     mapping(address => DataTypes.Project[]) internal projectsOf;
     mapping(uint => DataTypes.Supporter[]) internal supportersOf;
     mapping(uint => bool) public projectExist;

@@ -3,20 +3,37 @@ pragma solidity ^0.8.9;
 
 import "./DataTypes.sol";
 import "./CharityStorage.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract ProjectUtils is CharityStorage {
-    function performRefund(uint id) internal {
+contract ProjectUtils is CharityStorage, ReentrancyGuard {
+
+    function performRefund(uint id) internal nonReentrant {
         for (uint i = 0; i < supportersOf[id].length; i++) {
-            address _owner = supportersOf[id][i].owner;
-            uint _contribution = supportersOf[id][i].contribution;
+            if (!supportersOf[id][i].refunded) {
+                address _owner = supportersOf[id][i].owner;
+                uint _contribution = supportersOf[id][i].contribution;
 
-            supportersOf[id][i].refunded = true;
-            supportersOf[id][i].timestamp = block.timestamp;
-            payTo(_owner, _contribution);
+                // Instead of sending funds directly, increase the recipient's balance
+                withdrawals[_owner] += _contribution;
 
-            stats.totalSupporters -= 1;
-            stats.totalDonations -= _contribution;
+                supportersOf[id][i].refunded = true;
+                supportersOf[id][i].timestamp = block.timestamp;
+                stats.totalSupporters -= 1;
+                stats.totalDonations -= _contribution;
+            }
         }
+    }
+
+    function withdrawFunds() external {
+        uint256 amount = withdrawals[msg.sender];
+        require(amount > 0, "No funds available to withdraw");
+
+        // Reset the balance before sending funds to avoid a reentrancy
+        withdrawals[msg.sender] = 0;
+
+        // We send the funds to the recipient
+        (bool success, ) = payable(msg.sender).call{value: amount}("");
+        require(success, "Withdrawal failed");
     }
 
     function isProjectFunded(

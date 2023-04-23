@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\CharityStorage.sol": {
-      "lastModificationDate": 1682245038075,
-      "contentHash": "eb7723de5a1c2e1a5493618f52f870f0",
+      "lastModificationDate": 1682262882452,
+      "contentHash": "32e139fe2ae043a16aee3f4b18ac4205",
       "sourceName": "src/contracts/CharityStorage.sol",
       "solcConfig": {
         "version": "0.8.11",
@@ -74,8 +74,8 @@
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ProjectUtils.sol": {
-      "lastModificationDate": 1682246945276,
-      "contentHash": "3faa4ebae24139895f6eada918fe973f",
+      "lastModificationDate": 1682264754746,
+      "contentHash": "f917a2d3b0f87a47021f3d9089741f77",
       "sourceName": "src/contracts/ProjectUtils.sol",
       "solcConfig": {
         "version": "0.8.11",
@@ -102,13 +102,49 @@
       },
       "imports": [
         "./DataTypes.sol",
-        "./CharityStorage.sol"
+        "./CharityStorage.sol",
+        "@openzeppelin/contracts/security/ReentrancyGuard.sol"
       ],
       "versionPragmas": [
         "^0.8.9"
       ],
       "artifacts": [
         "ProjectUtils"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\node_modules\\@openzeppelin\\contracts\\security\\ReentrancyGuard.sol": {
+      "lastModificationDate": 1682264662348,
+      "contentHash": "a8e2d1c30042f64ed89c9d4157eb6cb9",
+      "sourceName": "@openzeppelin/contracts/security/ReentrancyGuard.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ReentrancyGuard"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\SupportProjects.sol": {
