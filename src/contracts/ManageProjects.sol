@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.17;
 
 import "./DataTypes.sol";
 import "./ProjectUtils.sol";
@@ -81,7 +81,9 @@ contract ManageProjects is ProjectUtils {
         return true;
     }
 
-    function getProject(uint id) public view returns (DataTypes.Project memory) {
+    function getProject(
+        uint id
+    ) public view returns (DataTypes.Project memory) {
         require(projectExist[id], "Project not found");
 
         return projects[id];
