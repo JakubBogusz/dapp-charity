@@ -30,7 +30,7 @@ library DataTypes {
         string description;
         string imageURL;
         uint cost;
-        uint raised;
+        uint amountRaised;
         uint timestamp;
         uint expiresAt;
         uint supporters;

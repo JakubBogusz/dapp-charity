@@ -39,7 +39,7 @@ contract ProjectUtils is CharityStorage, ReentrancyGuard {
     function isProjectFunded(
         DataTypes.Project memory project
     ) internal pure returns (bool) {
-        return project.raised >= project.cost;
+        return project.amountRaised >= project.cost;
     }
 
     function isProjectExpired(
@@ -49,18 +49,18 @@ contract ProjectUtils is CharityStorage, ReentrancyGuard {
     }
 
     function performPayout(uint id) internal {
-        uint raised = projects[id].raised;
-        uint tax = (raised * projectTax) / 100;
+        uint amountRaised = projects[id].amountRaised;
+        uint tax = (amountRaised * projectTax) / 100;
 
         projects[id].status = DataTypes.Status.PAIDOUT;
 
         // Pay raised funds minus tax to project owner
-        payTo(projects[id].owner, (raised - tax));
+        payTo(projects[id].owner, (amountRaised - tax));
 
         // Pay the tax to platform owner
         payTo(owner, tax);
 
-        balance -= projects[id].raised;
+        balance -= projects[id].amountRaised;
 
         emit Action(id, "PROJECT_PAID_OUT", msg.sender, block.timestamp);
     }

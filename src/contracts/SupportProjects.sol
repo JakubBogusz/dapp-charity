@@ -11,7 +11,7 @@ contract SupportProjects is ProjectUtils {
 
         stats.totalSupporters += 1;
         stats.totalDonations += msg.value;
-        projects[id].raised += msg.value;
+        projects[id].amountRaised += msg.value;
         projects[id].supporters += 1;
 
         supportersOf[id].push(
@@ -22,7 +22,7 @@ contract SupportProjects is ProjectUtils {
 
         if (isProjectFunded(projects[id])) {
             projects[id].status = DataTypes.Status.APPROVED;
-            balance += projects[id].raised;
+            balance += projects[id].amountRaised;
             performPayout(id);
         } else if (isProjectExpired(projects[id])) {
             projects[id].status = DataTypes.Status.REVERTED;

@@ -39,8 +39,8 @@
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DataTypes.sol": {
-      "lastModificationDate": 1682275425545,
-      "contentHash": "c30fc6936aa17b093bc58337c9043963",
+      "lastModificationDate": 1682282080652,
+      "contentHash": "a4023d90157555d8cf0e4fd12a974f36",
       "sourceName": "src/contracts/DataTypes.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -74,8 +74,8 @@
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ProjectUtils.sol": {
-      "lastModificationDate": 1682275425542,
-      "contentHash": "97e8cad04eece4f3bd1c455ef5734ce3",
+      "lastModificationDate": 1682282148657,
+      "contentHash": "b9071fbf8a115adad5fa891c76952166",
       "sourceName": "src/contracts/ProjectUtils.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -148,8 +148,8 @@
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\SupportProjects.sol": {
-      "lastModificationDate": 1682275425539,
-      "contentHash": "47f5f604554faa315582b690789e328c",
+      "lastModificationDate": 1682282080652,
+      "contentHash": "9dec7ca79878738c8bfc2a1bde98105f",
       "sourceName": "src/contracts/SupportProjects.sol",
       "solcConfig": {
         "version": "0.8.17",
