@@ -2,11 +2,11 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\CharityStorage.sol": {
-      "lastModificationDate": 1682262882452,
-      "contentHash": "32e139fe2ae043a16aee3f4b18ac4205",
+      "lastModificationDate": 1682270301516,
+      "contentHash": "7c373c9f3629852266119fa88af0415b",
       "sourceName": "src/contracts/CharityStorage.sol",
       "solcConfig": {
-        "version": "0.8.11",
+        "version": "0.8.19",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -32,18 +32,18 @@
         "./DataTypes.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.19"
       ],
       "artifacts": [
         "CharityStorage"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DataTypes.sol": {
-      "lastModificationDate": 1682245060135,
-      "contentHash": "7b5233a323685347fafc950b501de9c7",
+      "lastModificationDate": 1682270301516,
+      "contentHash": "dc4c30b6d88653eee22da865a4762276",
       "sourceName": "src/contracts/DataTypes.sol",
       "solcConfig": {
-        "version": "0.8.11",
+        "version": "0.8.19",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -67,18 +67,18 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.19"
       ],
       "artifacts": [
         "DataTypes"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ProjectUtils.sol": {
-      "lastModificationDate": 1682264754746,
-      "contentHash": "f917a2d3b0f87a47021f3d9089741f77",
+      "lastModificationDate": 1682270301517,
+      "contentHash": "ef152f61628ad18902a6cb0cfe959603",
       "sourceName": "src/contracts/ProjectUtils.sol",
       "solcConfig": {
-        "version": "0.8.11",
+        "version": "0.8.19",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -106,7 +106,7 @@
         "@openzeppelin/contracts/security/ReentrancyGuard.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.19"
       ],
       "artifacts": [
         "ProjectUtils"
@@ -117,7 +117,7 @@
       "contentHash": "a8e2d1c30042f64ed89c9d4157eb6cb9",
       "sourceName": "@openzeppelin/contracts/security/ReentrancyGuard.sol",
       "solcConfig": {
-        "version": "0.8.11",
+        "version": "0.8.19",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -148,11 +148,11 @@
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\SupportProjects.sol": {
-      "lastModificationDate": 1682246846213,
-      "contentHash": "84926f7b02ae8995702dd027b6412c7b",
+      "lastModificationDate": 1682270301516,
+      "contentHash": "eafb45675a807173995da9e8f9f40fd9",
       "sourceName": "src/contracts/SupportProjects.sol",
       "solcConfig": {
-        "version": "0.8.11",
+        "version": "0.8.19",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -178,18 +178,18 @@
         "./ProjectUtils.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.19"
       ],
       "artifacts": [
         "SupportProjects"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DCharity.sol": {
-      "lastModificationDate": 1682246894771,
-      "contentHash": "5b523970b2ebf09d54003f37c18ee055",
+      "lastModificationDate": 1682270301519,
+      "contentHash": "da0123892c0d9efe20a0aa177c59a57b",
       "sourceName": "src/contracts/DCharity.sol",
       "solcConfig": {
-        "version": "0.8.11",
+        "version": "0.8.19",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -216,18 +216,18 @@
         "./SupportProjects.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.19"
       ],
       "artifacts": [
         "DCharity"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ManageProjects.sol": {
-      "lastModificationDate": 1682246894771,
-      "contentHash": "06d6c30f0b588c03703d1d59e2b4e435",
+      "lastModificationDate": 1682270301519,
+      "contentHash": "de20259cbde638acaf1827e08e99fab2",
       "sourceName": "src/contracts/ManageProjects.sol",
       "solcConfig": {
-        "version": "0.8.11",
+        "version": "0.8.19",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -254,7 +254,7 @@
         "./ProjectUtils.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.19"
       ],
       "artifacts": [
         "ManageProjects"
