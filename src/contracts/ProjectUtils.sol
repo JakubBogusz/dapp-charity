@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.9;
 
 import "./DataTypes.sol";
 import "./CharityStorage.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract ProjectUtils is CharityStorage, ReentrancyGuard {
-
-    function performRefund(uint id) internal nonReentrant {
+contract ProjectUtils is CharityStorage {
+    function performRefund(uint id) internal {
         for (uint i = 0; i < supportersOf[id].length; i++) {
             if (!supportersOf[id][i].refunded) {
                 address _owner = supportersOf[id][i].owner;

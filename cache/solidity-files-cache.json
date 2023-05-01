@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\CharityStorage.sol": {
-      "lastModificationDate": 1682275425544,
-      "contentHash": "a8cec0cfdd29b20a61c1c8202d8dba1e",
+      "lastModificationDate": 1682969644233,
+      "contentHash": "32e139fe2ae043a16aee3f4b18ac4205",
       "sourceName": "src/contracts/CharityStorage.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -32,15 +32,15 @@
         "./DataTypes.sol"
       ],
       "versionPragmas": [
-        "^0.8.17"
+        "^0.8.9"
       ],
       "artifacts": [
         "CharityStorage"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DataTypes.sol": {
-      "lastModificationDate": 1682282080652,
-      "contentHash": "a4023d90157555d8cf0e4fd12a974f36",
+      "lastModificationDate": 1682969644233,
+      "contentHash": "548548a5e38bd40103bdc2a432436e37",
       "sourceName": "src/contracts/DataTypes.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -67,49 +67,10 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.17"
+        "^0.8.9"
       ],
       "artifacts": [
         "DataTypes"
-      ]
-    },
-    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ProjectUtils.sol": {
-      "lastModificationDate": 1682942423330,
-      "contentHash": "bd78bf8e18dcf6f5d561fd8408159ffa",
-      "sourceName": "src/contracts/ProjectUtils.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./DataTypes.sol",
-        "./CharityStorage.sol",
-        "@openzeppelin/contracts/security/ReentrancyGuard.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.17"
-      ],
-      "artifacts": [
-        "ProjectUtils"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\node_modules\\@openzeppelin\\contracts\\security\\ReentrancyGuard.sol": {
@@ -148,8 +109,8 @@
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\SupportProjects.sol": {
-      "lastModificationDate": 1682282080652,
-      "contentHash": "9dec7ca79878738c8bfc2a1bde98105f",
+      "lastModificationDate": 1682969644233,
+      "contentHash": "15553472c71c2f31bb02e8177adbef48",
       "sourceName": "src/contracts/SupportProjects.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -178,15 +139,15 @@
         "./ProjectUtils.sol"
       ],
       "versionPragmas": [
-        "^0.8.17"
+        "^0.8.9"
       ],
       "artifacts": [
         "SupportProjects"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\DCharity.sol": {
-      "lastModificationDate": 1682275425545,
-      "contentHash": "b4f695c0afe9ec66daba9f508bb9e594",
+      "lastModificationDate": 1682969644233,
+      "contentHash": "5b523970b2ebf09d54003f37c18ee055",
       "sourceName": "src/contracts/DCharity.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -216,15 +177,15 @@
         "./SupportProjects.sol"
       ],
       "versionPragmas": [
-        "^0.8.17"
+        "^0.8.9"
       ],
       "artifacts": [
         "DCharity"
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ManageProjects.sol": {
-      "lastModificationDate": 1682275425544,
-      "contentHash": "baa7e08da5e6f74529276f71f8cde682",
+      "lastModificationDate": 1682969644233,
+      "contentHash": "b5b442bd4d268ccaff43a0d6471533f5",
       "sourceName": "src/contracts/ManageProjects.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -254,10 +215,85 @@
         "./ProjectUtils.sol"
       ],
       "versionPragmas": [
-        "^0.8.17"
+        "^0.8.9"
       ],
       "artifacts": [
         "ManageProjects"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ProjectUtils.sol": {
+      "lastModificationDate": 1682971472949,
+      "contentHash": "5d746b1c84e29a370354f9d0872aeef9",
+      "sourceName": "src/contracts/ProjectUtils.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./DataTypes.sol",
+        "./CharityStorage.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "ProjectUtils"
+      ]
+    },
+    "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\test\\ProjectUtilsEchidnaTest.sol": {
+      "lastModificationDate": 1682971648809,
+      "contentHash": "d4f3d260e66e30e389518e479c194c7c",
+      "sourceName": "src/contracts/test/ProjectUtilsEchidnaTest.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../ProjectUtils.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "ProjectUtilsEchidnaTest"
       ]
     }
   }
