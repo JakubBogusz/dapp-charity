@@ -74,8 +74,8 @@
       ]
     },
     "C:\\Users\\E14\\RiderProjects\\dapp-charity\\src\\contracts\\ProjectUtils.sol": {
-      "lastModificationDate": 1682282148657,
-      "contentHash": "b9071fbf8a115adad5fa891c76952166",
+      "lastModificationDate": 1682942423330,
+      "contentHash": "bd78bf8e18dcf6f5d561fd8408159ffa",
       "sourceName": "src/contracts/ProjectUtils.sol",
       "solcConfig": {
         "version": "0.8.17",
