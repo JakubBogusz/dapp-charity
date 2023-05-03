@@ -7,12 +7,10 @@ contract ProjectUtilsEchidnaTest is ProjectUtils {
     constructor() {
         owner = msg.sender;
         projectTax = 5;
+        initialize();
     }
 
-    function initialize() public {
-        require(owner == msg.sender, "Only the owner can initialize");
-
-        // Initialize a project
+    function initialize() private {
         projects.push(
             DataTypes.Project({
                 id: 0,
@@ -21,31 +19,45 @@ contract ProjectUtilsEchidnaTest is ProjectUtils {
                 description: "This is a test project",
                 imageURL: "https://example.com/image.png",
                 cost: 10 ether,
-                amountRaised: 10 ether,
+                amountRaised: 0,
                 timestamp: block.timestamp,
                 expiresAt: block.timestamp + 30 days,
-                supporters: 1,
+                supporters: 0,
                 status: DataTypes.Status.OPEN
             })
         );
 
-        // Set the balance
-        balance = 10 ether;
+        balance = 0;
     }
 
-    function echidna_test_performPayout() public {
-        // Initialize the contract if it hasn't been initialized yet
-        if (projects.length == 0) {
-            initialize();
+    function updateAmountRaised(uint256 amount) public payable {
+        require(msg.value == amount, "Amount does not match the sent value");
+        projects[0].amountRaised += amount;
+        balance += amount;
+    }
+
+    function echidna_test_perform_payout() public returns (bool) {
+        if (isProjectFunded(projects[0])) {
+            performPayout(0);
+
+            // Verify that the project status has been updated to PAIDOUT
+            if (projects[0].status != DataTypes.Status.PAIDOUT) {
+                return false;
+            }
+
+            // Check if the platform owner received the correct tax amount
+            uint256 tax = (projects[0].amountRaised * projectTax) / 100;
+            if (withdrawals[owner] != tax) {
+                return false;
+            }
+
+            // Check if the project owner received the correct payout amount
+            uint256 payout = projects[0].amountRaised - tax;
+            if (withdrawals[projects[0].owner] != payout) {
+                return false;
+            }
         }
 
-        uint256 initialBalance = balance;
-        uint256 amountRaised = projects[0].amountRaised;
-        uint256 tax = (amountRaised * projectTax) / 100;
-
-        performPayout(0);
-        uint256 finalBalance = balance;
-
-        assert(finalBalance <= (initialBalance - amountRaised));
+        return true;
     }
 }
