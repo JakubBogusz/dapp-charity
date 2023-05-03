@@ -3,6 +3,8 @@ pragma solidity ^0.8.9;
 
 import "./DataTypes.sol";
 import "./CharityStorage.sol";
+// TODO - implement after Echidna tests
+// import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract ProjectUtils is CharityStorage {
     function performRefund(uint id) internal {
