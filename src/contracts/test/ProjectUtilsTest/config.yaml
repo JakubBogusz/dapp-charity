@@ -8,15 +8,15 @@ maxBlockDelay: 60480
 cryticArgs:
   [
     "--solc-remaps",
-    "@chainlink/contracts=\\src\\node_modules\\@chainlink\\contracts",
+    "@chainlink/contracts=/src/node_modules/@chainlink/contracts",
     "--solc-args",
-    "--allow-paths \\src\\contracts",
+    "--allow-paths /src/contracts",
   ]
 
 # cryticArgs:
 #   [
 #     "--solc-remaps",
-#     "@chainlink/contracts=C:/Users/E14/RiderProjects/dapp-charity/src/node_modules/@chainlink/contracts",
+#     "@chainlink/contracts=\\src\\node_modules\\@chainlink\\contracts",
 #     "--solc-args",
-#     "--allow-paths C:/Users/E14/RiderProjects/dapp-charity/src/contracts,",
+#     "--allow-paths \\src\\src\\contracts",
 #   ]
