@@ -1,0 +1,15 @@
+# The number of test sequences to run;
+testLimit: 50000
+# The maximum time between generated transactions; the default is one week.
+maxTimeDelay: 604800
+# The maximum number of blocks elapsed between generated transactions; the default is the expected increment in one week.
+maxBlockDelay: 60480
+# Echidna will not shrink test cases
+noShrink: true
+cryticArgs:
+  [
+    "--solc-remaps",
+    "@openzeppelin/contracts=/src/node_modules/@openzeppelin/contracts",
+    "--solc-args",
+    "--allow-paths /src/contracts",
+  ]
