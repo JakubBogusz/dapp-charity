@@ -1,5 +1,7 @@
 # TrustFund - Ethereum-Based Charity Platform
 
+![image](https://github.com/JakubBogusz/dapp-charity/assets/67878304/32b40b9f-c684-4f64-aecb-89db47269699)
+
 ## Introduction
 
 Welcome to the TrustFund, an innovative blockchain-based application designed and implemented as part of a master's thesis project. TrustFund is a charity-focused DApp (Decentralized Application) that allows users with appropriate permissions to manage and perform charitable actions. Authorized users can contribute donations in Ether, leveraging the unique features of blockchain technology for transparency and accountability.
